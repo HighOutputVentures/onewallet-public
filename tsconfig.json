@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "types": ["node"],
+    "lib": ["es7", "es2016.array.include", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "outDir": "build/"
+  }
+}
