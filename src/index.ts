@@ -3,13 +3,12 @@ import { Logger } from 'highoutput-utilities';
 
 const logger = new Logger(['queue']);
 
-export default class Queue {
+export default class TaskQueue {
   queue: PQueue
-  stopping: boolean
+  stopping: boolean = false
 
-  constructor(opts: any) {
-    this.queue = new PQueue(opts);
-    this.stopping = false;
+  constructor(options?: any) {
+    this.queue = new PQueue(options);
   }
 
   /**
@@ -17,10 +16,10 @@ export default class Queue {
    * @param fn Async function
    * @param {PQueue.QueueAddOptions} options
    */
-  add<T>(fn: PQueue.Task<T>, options: PQueue.QueueAddOptions): Promise<T> | false {
+  add<T>(fn: PQueue.Task<T>, options?: PQueue.QueueAddOptions): Promise<T> | void {
     if (this.stopping) {
-      logger.info('Cannot add new task already received a stop signal.');
-      return false;
+      logger.info('Cannot add new task.');
+      return;
     }
 
     return this.queue.add(fn, options);
