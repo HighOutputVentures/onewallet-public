@@ -14,7 +14,7 @@ export default class Queue {
 
   /**
    * Adds a new task to the queue
-   * @param fn Sync function that returns a promise or async function
+   * @param fn Async function
    * @param {PQueue.QueueAddOptions} options
    */
   add<T>(fn: PQueue.Task<T>, options: PQueue.QueueAddOptions): Promise<T> | false {
@@ -27,7 +27,7 @@ export default class Queue {
   }
 
   /**
-   * Marks the current queue to top accepting new tasks and awaits all remaining current task.
+   * Marks the current queue to stop accepting new tasks and awaits all running tasks.
    */
   stop(): Promise<any> {
     this.stopping = true;
