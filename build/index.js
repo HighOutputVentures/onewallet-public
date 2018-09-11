@@ -3,29 +3,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PQueue = require("p-queue");
 const highoutput_utilities_1 = require("highoutput-utilities");
 const logger = new highoutput_utilities_1.Logger(['queue']);
-class Queue {
-    constructor(opts) {
-        this.queue = new PQueue(opts);
+class TaskQueue {
+    constructor(options) {
         this.stopping = false;
+        this.queue = new PQueue(options);
     }
     /**
      * Adds a new task to the queue
-     * @param fn Sync function that returns a promise or async function
+     * @param fn Async function
      * @param {PQueue.QueueAddOptions} options
      */
     add(fn, options) {
         if (this.stopping) {
-            logger.info('Cannot add new task already received a stop signal.');
-            return false;
+            logger.info('Cannot add new task.');
+            return;
         }
         return this.queue.add(fn, options);
     }
     /**
-     * Marks the current queue to top accepting new tasks and awaits all remaining current task.
+     * Marks the current queue to stop accepting new tasks and awaits all running tasks.
      */
     stop() {
         this.stopping = true;
         return this.queue.onEmpty();
     }
 }
-exports.default = Queue;
+exports.default = TaskQueue;
